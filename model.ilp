@@ -1,0 +1,14 @@
+\ Model workforce_with_training_time_copy
+\ LP format - for model browsing. Use MPS format to capture full model detail.
+Maximize
+ 
+Subject To
+ R1: trainingProgress[Amy,0,0] = 0
+ R2: acquiredSkill[Amy,0,0] = 1
+ training_completion_Amy_0_0: trainingProgress[Amy,0,0]
+   - 8 acquiredSkill[Amy,0,0] >= 0
+Bounds
+ trainingProgress[Amy,0,0] free
+Binaries
+ acquiredSkill[Amy,0,0]
+End
