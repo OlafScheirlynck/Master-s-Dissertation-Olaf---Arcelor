@@ -1,0 +1,139 @@
+import random
+from collections import defaultdict
+from typing import List, Tuple, Dict, Set
+
+
+class EmployeeResult:
+    def __init__(self, employee_id, employee_positions):
+        self.employee_id = employee_id
+        self.employee_positions = set(employee_positions)
+        self.result_positions = defaultdict(int)
+        self.result_absent_nok = 0
+        self.result_absent_ok = 0
+        self.result_present_nok = 0
+        self.result_present_ok = 0
+
+
+class TeamResult:
+    def __init__(self, team_id, positions_to_fill):
+        self.team_id = team_id
+        self.positions_to_fill = positions_to_fill
+        self.missing_functions = defaultdict(int)
+        self.flexibility = 0.0
+
+
+class Team:
+    def __init__(self, team_id, team_members, positions_to_fill):
+        self.team_id = team_id
+        self.team_members = team_members
+        self.positions_to_fill = positions_to_fill
+
+
+class Employee:
+    def __init__(self, employee_id, availability, positions):
+        self.employee_id = employee_id
+        self.availability = availability
+        self.positions = set(positions)
+
+
+def hopcroft_karp(lefts: Set[str], rights: Set[str], edges: Dict[str, Set[str]]) -> Dict[str, str]:
+    # Placeholder for Hopcroft-Karp algorithm implementation
+    matches = {}
+    for left in lefts:
+        for right in edges.get(left, []):
+            if right in rights and right not in matches.values():
+                matches[left] = right
+                break
+    return matches
+
+
+def calculate(team: Team, amount_of_calc: int) -> Tuple[List[EmployeeResult], TeamResult]:
+    employee_results = [
+        EmployeeResult(member.employee_id, member.positions) for member in team.team_members
+    ]
+    team_result = TeamResult(team.team_id, team.positions_to_fill)
+
+    amount_of_team_members = len(team.team_members)
+    amount_of_positions_to_fill = len(team.positions_to_fill)
+    nok = 0
+
+    for _ in range(amount_of_calc):
+        drawn_team = [
+            e for e in team.team_members
+            if e.availability == 100 or e.availability > random.randint(0, 99)
+        ]
+        random.shuffle(drawn_team)
+        drawn_team = drawn_team[:amount_of_positions_to_fill]
+
+        rights = set(team.positions_to_fill)
+        edges = {e.employee_id: e.positions for e in drawn_team}
+        lefts = set(edges.keys())
+        matches = hopcroft_karp(lefts, rights, edges)
+
+        if len(matches) != amount_of_positions_to_fill:
+            nok += 1
+            for key in team_result.positions_to_fill:
+                if key not in matches.values():
+                    team_result.missing_functions[key] += 1
+                    break
+
+        for emp_result in employee_results:
+            if emp_result.employee_id not in edges:
+                emp_result.result_positions["Rest"] += 1
+                if len(matches) != amount_of_positions_to_fill:
+                    emp_result.result_absent_nok += 1
+                else:
+                    emp_result.result_absent_ok += 1
+            elif emp_result.employee_id not in matches:
+                emp_result.result_positions["Unused"] += 1
+                emp_result.result_present_nok += 1
+            else:
+                matched_position = matches[emp_result.employee_id]
+                emp_result.result_positions[matched_position] += 1
+                if len(matches) != amount_of_positions_to_fill:
+                    emp_result.result_present_nok += 1
+                else:
+                    emp_result.result_present_ok += 1
+
+    team_result.flexibility = (amount_of_calc - nok) / amount_of_calc * 100.0
+
+    return employee_results, team_result
+def test_calculate():
+    # Mock data
+    team_members = [
+        Employee(employee_id="E1", availability=100, positions=["P1", "P2"]),
+        Employee(employee_id="E2", availability=80, positions=["P2", "P3"]),
+        Employee(employee_id="E3", availability=60, positions=["P1", "P3"]),
+        Employee(employee_id="E4", availability=100, positions=["P3", "P4"]),
+        Employee(employee_id="E5", availability=50, positions=["P2", "P4"]),
+    ]
+
+    positions_to_fill = ["P1", "P2", "P3"]
+
+    team = Team(team_id="TeamA", team_members=team_members, positions_to_fill=positions_to_fill)
+
+    # Run the calculation
+    amount_of_calculations = 100
+    employee_results, team_result = calculate(team, amount_of_calculations)
+
+    # Print the results
+    print(f"Team ID: {team_result.team_id}")
+    print(f"Flexibility: {team_result.flexibility:.2f}%")
+    print("Missing functions:")
+    for position, count in team_result.missing_functions.items():
+        print(f"  {position}: {count}")
+
+    print("\nEmployee Results:")
+    for result in employee_results:
+        print(f"Employee ID: {result.employee_id}")
+        print("  Result Positions:")
+        for position, count in result.result_positions.items():
+            print(f"    {position}: {count}")
+        print(f"  Absent NOK: {result.result_absent_nok}")
+        print(f"  Absent OK: {result.result_absent_ok}")
+        print(f"  Present NOK: {result.result_present_nok}")
+        print(f"  Present OK: {result.result_present_ok}")
+
+# Run the test
+test_calculate()
+

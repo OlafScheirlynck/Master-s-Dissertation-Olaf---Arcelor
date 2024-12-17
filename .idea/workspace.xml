@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f87b831-e1e5-41e5-8c06-9afd639dddd0" name="Changes" comment="" />
+    <list default="true" id="4f87b831-e1e5-41e5-8c06-9afd639dddd0" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Code/Estimation of distributions.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Code/HopcroftKarp.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Code/TestTeamVerlofCoefficient.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/OefenCodeSimulatie.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TestTeamVerlofCoefficient" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tryout.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Oefencode.py" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,9 +32,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2nbtbM9SGOiEIATzgiwOa0nyRTa" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -33,7 +42,12 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Python.HopcroftKarp.executor": "Run",
+    "Python.OefenCodeSimulatie.executor": "Run",
     "Python.Oefencode.executor": "Run",
+    "Python.Oefencode_LatestWorkingVersion.executor": "Run",
+    "Python.TestTeamVerlofCoefficient.executor": "Run",
+    "Python.tryout.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "main"
